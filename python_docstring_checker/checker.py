@@ -8,9 +8,9 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Iterable
 
-from docstring_checker.google import DocItem, ParsedDocstring, parse_google_docstring
-from docstring_checker.models import Issue
-from docstring_checker.types import (
+from python_docstring_checker.google import DocItem, ParsedDocstring, parse_google_docstring
+from python_docstring_checker.models import Issue
+from python_docstring_checker.types import (
     comparison_confidence,
     is_none_type,
     is_type_like,

@@ -7,8 +7,8 @@ from pathlib import Path
 import sys
 from typing import Any, Sequence
 
-from docstring_checker.checker import DEFAULT_EXCLUDES, CheckOptions, check_paths
-from docstring_checker.output import OUTPUT_FORMATS, OutputOptions, format_report
+from python_docstring_checker.checker import DEFAULT_EXCLUDES, CheckOptions, check_paths
+from python_docstring_checker.output import OUTPUT_FORMATS, OutputOptions, format_report
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -93,7 +93,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="python -m docstring_checker",
+        prog="python -m python_docstring_checker",
         description="Check Python Google-style docstrings against AST signatures.",
     )
     parser.add_argument(

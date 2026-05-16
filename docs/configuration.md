@@ -3,7 +3,7 @@
 配置写在 `pyproject.toml` 的 `[tool.docstring-checker]` 中。默认会读取当前目录下的 `pyproject.toml`，也可以通过 `--config` 指定文件。
 
 ```bash
-python -m docstring_checker --config pyproject.toml src
+python -m python_docstring_checker --config pyproject.toml src
 ```
 
 命令行参数优先级高于配置文件。列表型选项会在默认值和配置值基础上追加命令行参数。
@@ -109,5 +109,5 @@ ignore-codes = []
 CI 命令：
 
 ```bash
-python -m docstring_checker src
+python -m python_docstring_checker src
 ```

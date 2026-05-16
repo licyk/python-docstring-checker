@@ -8,7 +8,7 @@ from dataclasses import dataclass
 import json
 from pathlib import Path
 
-from docstring_checker.models import Issue
+from python_docstring_checker.models import Issue
 
 
 OUTPUT_FORMATS = {"text", "compact", "json", "json-lines"}

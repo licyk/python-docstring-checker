@@ -4,7 +4,7 @@
 
 ```bash
 docstring-checker src
-python -m docstring_checker src
+python -m python_docstring_checker src
 ```
 
 位置参数可以是 Python 文件或目录。目录会递归扫描 `.py` 文件；不存在的路径、非 `.py` 文件会被跳过。
@@ -18,7 +18,7 @@ python -m docstring_checker src
 CI 中可以直接使用退出码阻断流程：
 
 ```bash
-python -m docstring_checker src
+python -m python_docstring_checker src
 ```
 
 检查器也会识别常见的结构性误写。例如函数没有参数却把 `list[Item]:` 写进 `Args:` 时，会报告 `ARG005`，并提示该条目可能应该移动到 `Returns:` 或 `Yields:`。如果 `Args:` 已经为参数写了类型，但函数签名缺少注解，会报告 `ARG006`。函数体中明确的 `raise` 没有对应 `Raises:` 时，会报告 `RAI001`。
@@ -37,7 +37,7 @@ python -m docstring_checker src
 额外排除路径：
 
 ```bash
-python -m docstring_checker src --exclude "src/generated/*" --exclude "*/migrations/*"
+python -m python_docstring_checker src --exclude "src/generated/*" --exclude "*/migrations/*"
 ```
 
 `--exclude` 使用 `fnmatch` 风格匹配，会匹配完整路径、文件名，以及路径中的后缀片段。
@@ -47,19 +47,19 @@ python -m docstring_checker src --exclude "src/generated/*" --exclude "*/migrati
 默认 `text` 面向人阅读：
 
 ```bash
-python -m docstring_checker src
+python -m python_docstring_checker src
 ```
 
 `compact` 保留一行一条问题的紧凑格式，适合 grep 或简单脚本：
 
 ```bash
-python -m docstring_checker --format compact src
+python -m python_docstring_checker --format compact src
 ```
 
 `json` 输出增强 JSON 对象：
 
 ```bash
-python -m docstring_checker --format json src
+python -m python_docstring_checker --format json src
 ```
 
 结构为：
@@ -93,7 +93,7 @@ python -m docstring_checker --format json src
 `json-lines` 每行输出一个 issue，适合日志采集：
 
 ```bash
-python -m docstring_checker --format json-lines src
+python -m python_docstring_checker --format json-lines src
 ```
 
 ## 源码上下文
@@ -101,14 +101,14 @@ python -m docstring_checker --format json-lines src
 `--show-source` 会在 `text` 和 `compact` 输出中附带问题行附近源码：
 
 ```bash
-python -m docstring_checker --show-source src
+python -m python_docstring_checker --show-source src
 ```
 
 控制上下文行数：
 
 ```bash
-python -m docstring_checker --show-source --source-context 0 src
-python -m docstring_checker --show-source --source-context 2 src
+python -m python_docstring_checker --show-source --source-context 0 src
+python -m python_docstring_checker --show-source --source-context 2 src
 ```
 
 `--source-context 0` 只显示问题行。源码读取失败时会静默降级为无源码片段。
@@ -118,19 +118,19 @@ python -m docstring_checker --show-source --source-context 2 src
 默认策略为 `balanced`，适合真实项目：
 
 ```bash
-python -m docstring_checker --strictness balanced src
+python -m python_docstring_checker --strictness balanced src
 ```
 
 严格策略会检查更多对象，包括测试文件、私有对象、嵌套对象和未文档化属性：
 
 ```bash
-python -m docstring_checker --strictness strict src
+python -m python_docstring_checker --strictness strict src
 ```
 
 公开 API 策略优先检查对外可见对象；如果模块中有静态 `__all__`，只检查其中导出的顶层对象：
 
 ```bash
-python -m docstring_checker --strictness public src
+python -m python_docstring_checker --strictness public src
 ```
 
 ## 常见本地流程
@@ -138,23 +138,23 @@ python -m docstring_checker --strictness public src
 先用默认策略发现高价值问题：
 
 ```bash
-python -m docstring_checker src
+python -m python_docstring_checker src
 ```
 
 想看具体源码位置：
 
 ```bash
-python -m docstring_checker --show-source src
+python -m python_docstring_checker --show-source src
 ```
 
 只看公开 API：
 
 ```bash
-python -m docstring_checker --strictness public src
+python -m python_docstring_checker --strictness public src
 ```
 
 CI 中使用结构化输出：
 
 ```bash
-python -m docstring_checker --format json-lines src
+python -m python_docstring_checker --format json-lines src
 ```

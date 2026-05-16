@@ -6,10 +6,10 @@ from collections import Counter
 import json
 from pathlib import Path
 
-from docstring_checker.checker import CheckOptions, check_paths
-from docstring_checker.cli import main
-from docstring_checker.google import parse_google_docstring
-from docstring_checker.types import is_type_like, normalize_type, types_equal
+from python_docstring_checker.checker import CheckOptions, check_paths
+from python_docstring_checker.cli import main
+from python_docstring_checker.google import parse_google_docstring
+from python_docstring_checker.types import is_type_like, normalize_type, types_equal
 
 
 def write_source(tmp_path: Path, source: str, name: str = "sample.py") -> Path:

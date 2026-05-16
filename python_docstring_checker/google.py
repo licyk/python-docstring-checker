@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 import re
 
-from docstring_checker.types import is_type_like
+from python_docstring_checker.types import is_type_like
 
 
 SECTION_NAMES = {

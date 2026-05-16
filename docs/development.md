@@ -25,14 +25,14 @@ python -m pytest -q
 运行 CLI：
 
 ```bash
-python -m docstring_checker --help
-python -m docstring_checker examples/sd_webui_all_in_one/downloader/aria2_server.py
+python -m python_docstring_checker --help
+python -m python_docstring_checker examples/sd_webui_all_in_one/downloader/aria2_server.py
 ```
 
 ## 项目结构
 
 ```text
-docstring_checker/
+python_docstring_checker/
   checker.py      # AST 遍历、检查策略、诊断生成
   cli.py          # 命令行参数、配置读取、退出码
   google.py       # Google 风格 docstring parser

@@ -44,7 +44,7 @@ docstring-checker path/to/file.py
 也可以直接使用模块入口：
 
 ```bash
-python -m docstring_checker path/to/file.py
+python -m python_docstring_checker path/to/file.py
 ```
 
 ## 快速开始
@@ -52,13 +52,13 @@ python -m docstring_checker path/to/file.py
 扫描单个文件：
 
 ```bash
-python -m docstring_checker examples/sd_webui_all_in_one/downloader/aria2_server.py
+python -m python_docstring_checker examples/sd_webui_all_in_one/downloader/aria2_server.py
 ```
 
 扫描目录：
 
 ```bash
-python -m docstring_checker src tests
+python -m python_docstring_checker src tests
 ```
 
 默认输出为适合阅读的 `text` 格式，包含摘要和按文件分组的问题列表。发现问题时退出码为 `1`，没有问题时退出码为 `0`。
@@ -82,38 +82,38 @@ examples/sd_webui_all_in_one/downloader/aria2_server.py
 显示源码上下文：
 
 ```bash
-python -m docstring_checker --show-source --source-context 2 src
+python -m python_docstring_checker --show-source --source-context 2 src
 ```
 
 输出 JSON：
 
 ```bash
-python -m docstring_checker --format json src
+python -m python_docstring_checker --format json src
 ```
 
 输出一行一个 JSON，适合日志采集：
 
 ```bash
-python -m docstring_checker --format json-lines src
+python -m python_docstring_checker --format json-lines src
 ```
 
 使用旧式紧凑输出，适合 `grep` 或简单脚本：
 
 ```bash
-python -m docstring_checker --format compact src
+python -m python_docstring_checker --format compact src
 ```
 
 切换检查策略：
 
 ```bash
-python -m docstring_checker --strictness strict src
-python -m docstring_checker --strictness public src
+python -m python_docstring_checker --strictness strict src
+python -m python_docstring_checker --strictness public src
 ```
 
 指定配置文件：
 
 ```bash
-python -m docstring_checker --config pyproject.toml src
+python -m python_docstring_checker --config pyproject.toml src
 ```
 
 ## 最小配置
