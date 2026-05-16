@@ -1,6 +1,6 @@
 # 开发指南
 
-`docstring-checker` 第一版保持轻量：只依赖 Python 标准库完成源码解析和检查，测试依赖为 `pytest`。
+`python-docstring-checker` 第一版保持轻量：只依赖 Python 标准库完成源码解析和检查，测试依赖为 `pytest`。
 
 ## 本地安装
 

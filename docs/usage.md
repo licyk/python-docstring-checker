@@ -1,9 +1,9 @@
 # 使用指南
 
-`docstring-checker` 提供两个等价入口：
+`python-docstring-checker` 提供两个等价入口：
 
 ```bash
-docstring-checker src
+python-docstring-checker src
 python -m python_docstring_checker src
 ```
 

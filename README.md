@@ -1,9 +1,9 @@
-# docstring-checker
+# python-docstring-checker
 
 > [!WARNING]  
 > 这是一个 Python Google 风格 docstring 检查器的实验项目，用于验证和落地相关检查规则，并非官方 Google docstring 规范或官方工具。
 
-`docstring-checker` 是一个基于标准库 `ast` 的 Python Google 风格 docstring 检查器。它不导入、不执行被检查代码，只静态解析源码，并检查函数参数、返回值、生成器、属性文档和类型注解是否一致。
+`python-docstring-checker` 是一个基于标准库 `ast` 的 Python Google 风格 docstring 检查器。它不导入、不执行被检查代码，只静态解析源码，并检查函数参数、返回值、生成器、属性文档和类型注解是否一致。
 
 适合用于：
 
@@ -38,7 +38,7 @@ pip install -e .[dev]
 安装后可使用脚本入口：
 
 ```bash
-docstring-checker path/to/file.py
+python-docstring-checker path/to/file.py
 ```
 
 也可以直接使用模块入口：
@@ -121,7 +121,7 @@ python -m python_docstring_checker --config pyproject.toml src
 在 `pyproject.toml` 中添加：
 
 ```toml
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 strictness = "balanced"
 format = "text"
 show-source = false

@@ -1,4 +1,4 @@
-"""Command-line interface for the Google docstring checker."""
+"""Command-line interface for the Python Google docstring checker."""
 
 from __future__ import annotations
 
@@ -9,6 +9,8 @@ from typing import Any, Sequence
 
 from python_docstring_checker.checker import DEFAULT_EXCLUDES, CheckOptions, check_paths
 from python_docstring_checker.output import OUTPUT_FORMATS, OutputOptions, format_report
+
+TOOL_CONFIG_KEY = "python-docstring-checker"
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -93,7 +95,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="python -m python_docstring_checker",
+        prog="python-docstring-checker",
         description="Check Python Google-style docstrings against AST signatures.",
     )
     parser.add_argument(
@@ -225,7 +227,7 @@ def _load_tool_config(path: Path | None) -> dict[str, Any]:
     if not isinstance(tool, dict):
         return {}
 
-    config = tool.get("docstring-checker", {})
+    config = tool.get(TOOL_CONFIG_KEY, {})
     return config if isinstance(config, dict) else {}
 
 
@@ -233,13 +235,13 @@ def _load_toml(path: Path) -> dict[str, Any]:
     try:
         import tomllib
     except ModuleNotFoundError:
-        return _load_minimal_docstring_checker_toml(path)
+        return _load_minimal_tool_toml(path)
 
     with path.open("rb") as file:
         return tomllib.load(file)
 
 
-def _load_minimal_docstring_checker_toml(path: Path) -> dict[str, Any]:
+def _load_minimal_tool_toml(path: Path) -> dict[str, Any]:
     section = False
     config: dict[str, Any] = {}
 
@@ -248,7 +250,7 @@ def _load_minimal_docstring_checker_toml(path: Path) -> dict[str, Any]:
         if not line or line.startswith("#"):
             continue
         if line.startswith("[") and line.endswith("]"):
-            section = line == "[tool.docstring-checker]"
+            section = line == f"[tool.{TOOL_CONFIG_KEY}]"
             continue
         if not section or "=" not in line:
             continue
@@ -256,7 +258,7 @@ def _load_minimal_docstring_checker_toml(path: Path) -> dict[str, Any]:
         key, value = line.split("=", 1)
         config[key.strip()] = _parse_minimal_toml_value(value.strip())
 
-    return {"tool": {"docstring-checker": config}}
+    return {"tool": {TOOL_CONFIG_KEY: config}}
 
 
 def _parse_minimal_toml_value(value: str) -> Any:

@@ -1,6 +1,6 @@
 # 配置说明
 
-配置写在 `pyproject.toml` 的 `[tool.docstring-checker]` 中。默认会读取当前目录下的 `pyproject.toml`，也可以通过 `--config` 指定文件。
+配置写在 `pyproject.toml` 的 `[tool.python-docstring-checker]` 中。默认会读取当前目录下的 `pyproject.toml`，也可以通过 `--config` 指定文件。
 
 ```bash
 python -m python_docstring_checker --config pyproject.toml src
@@ -46,7 +46,7 @@ ignore-method-names = ["format", "emit", "handle", "invalidate_caches"]
 ### balanced：真实项目默认选择
 
 ```toml
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 strictness = "balanced"
 format = "text"
 show-source = false
@@ -64,7 +64,7 @@ ignore-codes = []
 ### strict：新项目或强约束代码库
 
 ```toml
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 strictness = "strict"
 attribute-policy = "strict"
 require-docstring-types = true
@@ -83,7 +83,7 @@ check-nested = true
 ### public：只看公开 API
 
 ```toml
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 strictness = "public"
 attribute-policy = "documented"
 format = "compact"
@@ -98,7 +98,7 @@ format = "compact"
 ## 示例：CI 友好配置
 
 ```toml
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 strictness = "balanced"
 format = "json-lines"
 show-source = false

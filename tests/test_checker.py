@@ -1225,7 +1225,7 @@ def _private():
     config_path = tmp_path / "pyproject.toml"
     config_path.write_text(
         '''
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 strictness = "strict"
 ignore-codes = ["DOC001"]
 ''',
@@ -1260,7 +1260,7 @@ def parse(url: str) -> None:
     config_path = tmp_path / "pyproject.toml"
     config_path.write_text(
         '''
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 require-docstring-types = true
 ''',
         encoding="utf-8",
@@ -1288,7 +1288,7 @@ def func() -> str:
     config_path = tmp_path / "pyproject.toml"
     config_path.write_text(
         '''
-[tool.docstring-checker]
+[tool.python-docstring-checker]
 format = "compact"
 show-source = true
 source-context = 0
