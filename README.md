@@ -15,13 +15,25 @@
 
 ## 安装
 
-从 GitHub 安装：
+从 PyPI 安装：
+
+```bash
+pip install python-docstring-checker
+```
+
+升级到最新版本：
+
+```bash
+pip install -U python-docstring-checker
+```
+
+如需安装仓库中的最新代码：
 
 ```bash
 pip install git+https://github.com/licyk/python-docstring-checker.git
 ```
 
-指定分支或提交安装：
+也可以指定分支或提交安装：
 
 ```bash
 pip install git+https://github.com/licyk/python-docstring-checker.git@main
@@ -78,6 +90,12 @@ examples/sd_webui_all_in_one/downloader/aria2_server.py
 ```
 
 ## 常用命令
+
+显示当前安装版本：
+
+```bash
+python-docstring-checker --version
+```
 
 显示源码上下文：
 
