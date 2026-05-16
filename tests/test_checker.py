@@ -4,12 +4,14 @@ from __future__ import annotations
 
 from collections import Counter
 import json
+import pytest
 from pathlib import Path
 
 from python_docstring_checker.checker import CheckOptions, check_paths
 from python_docstring_checker.cli import main
 from python_docstring_checker.google import parse_google_docstring
 from python_docstring_checker.types import is_type_like, normalize_type, types_equal
+from python_docstring_checker.version import VERSION
 
 
 def write_source(tmp_path: Path, source: str, name: str = "sample.py") -> Path:
@@ -1212,6 +1214,16 @@ def func() -> str:
 
     issues = check_paths([path], CheckOptions(ignore_codes=frozenset({"RET001"})))
     assert issues == []
+
+
+def test_cli_prints_version(capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        main(["--version"])
+
+    output = capsys.readouterr().out
+
+    assert exc_info.value.code == 0
+    assert output == f"python-docstring-checker {VERSION}\n"
 
 
 def test_cli_reads_pyproject_config(tmp_path: Path, capsys) -> None:

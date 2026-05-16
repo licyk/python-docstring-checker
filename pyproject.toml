@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "python-docstring-checker"
-version = "0.1.0"
+dynamic = ["version"]
 description = "AST-based checker for Google-style Python docstrings."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -39,6 +39,9 @@ python-docstring-checker = "python_docstring_checker.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["python_docstring_checker*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "python_docstring_checker.version.VERSION" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

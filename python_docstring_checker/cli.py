@@ -9,6 +9,7 @@ from typing import Any, Sequence
 
 from python_docstring_checker.checker import DEFAULT_EXCLUDES, CheckOptions, check_paths
 from python_docstring_checker.output import OUTPUT_FORMATS, OutputOptions, format_report
+from python_docstring_checker.version import VERSION
 
 TOOL_CONFIG_KEY = "python-docstring-checker"
 
@@ -104,6 +105,12 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=[Path(".")],
         help="Python files or directories to scan. Defaults to the current directory.",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {VERSION}",
+        help="Show the installed version and exit.",
     )
     parser.add_argument(
         "--format",
