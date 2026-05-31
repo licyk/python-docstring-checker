@@ -85,7 +85,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         show_source=False if show_source is None else show_source,
         source_context=source_context,
     )
-    issues = check_paths(args.paths, options)
+    issues = check_paths(_resolve_scan_paths(args.paths, args.include, config), options)
 
     report = format_report(issues, output_options)
     if report:
@@ -103,8 +103,11 @@ def _build_parser() -> argparse.ArgumentParser:
         "paths",
         nargs="*",
         type=Path,
-        default=[Path(".")],
-        help="Python files or directories to scan. Defaults to the current directory.",
+        default=(),
+        help=(
+            "Python files or directories to scan. Defaults to configured includes "
+            "or the current directory."
+        ),
     )
     parser.add_argument(
         "--version",
@@ -135,6 +138,16 @@ def _build_parser() -> argparse.ArgumentParser:
         action="append",
         default=None,
         help="fnmatch-style path pattern to exclude. May be passed multiple times.",
+    )
+    parser.add_argument(
+        "--include",
+        action="append",
+        type=Path,
+        default=None,
+        help=(
+            "Default Python file or directory to scan when no path argument is "
+            "provided. May be passed multiple times."
+        ),
     )
     parser.add_argument(
         "--ignore-code",
@@ -238,6 +251,19 @@ def _load_tool_config(path: Path | None) -> dict[str, Any]:
     return config if isinstance(config, dict) else {}
 
 
+def _resolve_scan_paths(
+    paths: Sequence[Path],
+    cli_includes: Sequence[Path] | None,
+    config: dict[str, Any],
+) -> list[Path]:
+    if paths:
+        return list(paths)
+
+    includes = [Path(path) for path in _config_list(config, "include")]
+    includes.extend(cli_includes or ())
+    return includes or [Path(".")]
+
+
 def _load_toml(path: Path) -> dict[str, Any]:
     try:
         import tomllib
@@ -336,4 +362,3 @@ def _split_codes(values: list[str]) -> set[str]:
             if cleaned:
                 codes.add(cleaned)
     return codes
-

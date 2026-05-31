@@ -73,6 +73,8 @@ python -m python_docstring_checker examples/sd_webui_all_in_one/downloader/aria2
 python -m python_docstring_checker src tests
 ```
 
+未传文件或目录时，默认扫描当前目录。也可以在配置中用 `include` 指定默认扫描路径。
+
 默认输出为适合阅读的 `text` 格式，包含摘要和按文件分组的问题列表。发现问题时退出码为 `1`，没有问题时退出码为 `0`。
 
 示例输出：
@@ -134,12 +136,19 @@ python -m python_docstring_checker --strictness public src
 python -m python_docstring_checker --config pyproject.toml src
 ```
 
+指定默认扫描路径，仅在未传位置路径时生效：
+
+```bash
+python -m python_docstring_checker --include src --include tests
+```
+
 ## 最小配置
 
 在 `pyproject.toml` 中添加：
 
 ```toml
 [tool.python-docstring-checker]
+include = ["src"]
 strictness = "balanced"
 format = "text"
 show-source = false
@@ -148,7 +157,7 @@ exclude = ["build/*", "dist/*"]
 ignore-codes = []
 ```
 
-命令行参数优先级高于 `pyproject.toml`。列表型选项会在默认值和配置值基础上继续追加命令行参数。
+命令行参数优先级高于 `pyproject.toml`。传入位置路径时会忽略 `include`；未传位置路径时，配置中的 `include` 会和 CLI 的 `--include` 追加合并。列表型选项会在默认值和配置值基础上继续追加命令行参数。
 
 ## 文档
 

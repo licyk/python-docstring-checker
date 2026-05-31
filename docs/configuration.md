@@ -12,6 +12,7 @@ python -m python_docstring_checker --config pyproject.toml src
 
 | 配置项 | 默认值 | CLI 参数 | 说明 |
 | --- | --- | --- | --- |
+| `include` | `["."]` | `--include` | 未传位置路径时默认检查的文件或目录路径。 |
 | `strictness` | `"balanced"` | `--strictness` | 检查策略，可选 `strict`、`balanced`、`public`。 |
 | `exclude` | 内置排除列表 | `--exclude` | 额外排除路径，支持 `fnmatch` 风格。 |
 | `ignore-codes` | `[]` | `--ignore-code` | 忽略指定诊断码，CLI 支持逗号分隔。 |
@@ -41,12 +42,15 @@ exclude = [".git/*", "__pycache__/*", ".venv/*", "venv/*", "build/*", "dist/*"]
 ignore-method-names = ["format", "emit", "handle", "invalidate_caches"]
 ```
 
+`include` 只在命令行没有传位置路径时生效。传了位置路径时，只检查位置路径指定的文件或目录；未传位置路径时，配置中的 `include` 会和 CLI 的 `--include` 追加合并。如果最终没有任何 include，检查器会回退到当前目录 `.`。
+
 ## 推荐配置
 
 ### balanced：真实项目默认选择
 
 ```toml
 [tool.python-docstring-checker]
+include = ["src"]
 strictness = "balanced"
 format = "text"
 show-source = false
@@ -65,6 +69,7 @@ ignore-codes = []
 
 ```toml
 [tool.python-docstring-checker]
+include = ["src", "tests"]
 strictness = "strict"
 attribute-policy = "strict"
 require-docstring-types = true
@@ -84,6 +89,7 @@ check-nested = true
 
 ```toml
 [tool.python-docstring-checker]
+include = ["src"]
 strictness = "public"
 attribute-policy = "documented"
 format = "compact"
@@ -99,6 +105,7 @@ format = "compact"
 
 ```toml
 [tool.python-docstring-checker]
+include = ["src"]
 strictness = "balanced"
 format = "json-lines"
 show-source = false
@@ -109,5 +116,5 @@ ignore-codes = []
 CI 命令：
 
 ```bash
-python -m python_docstring_checker src
+python -m python_docstring_checker
 ```

@@ -1252,6 +1252,176 @@ ignore-codes = ["DOC001"]
     assert "DOC001" not in output
 
 
+def test_cli_uses_config_include_when_paths_are_omitted(
+    tmp_path: Path, capsys, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    included_dir = tmp_path / "included"
+    ignored_dir = tmp_path / "ignored"
+    included_dir.mkdir()
+    ignored_dir.mkdir()
+    write_source(
+        included_dir,
+        '''
+"""Module docs."""
+
+
+def included() -> str:
+    """Return included."""
+    return "x"
+''',
+        "included.py",
+    )
+    write_source(
+        ignored_dir,
+        '''
+"""Module docs."""
+
+
+def ignored() -> str:
+    """Return ignored."""
+    return "x"
+''',
+        "ignored.py",
+    )
+    config_path = tmp_path / "pyproject.toml"
+    config_path.write_text(
+        '''
+[tool.python-docstring-checker]
+include = ["included"]
+''',
+        encoding="utf-8",
+    )
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = main(["--config", "pyproject.toml"])
+    output = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert "included.py" in output
+    assert "ignored.py" not in output
+
+
+def test_cli_merges_config_include_and_cli_include(
+    tmp_path: Path, capsys, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    configured_dir = tmp_path / "configured"
+    extra_dir = tmp_path / "extra"
+    configured_dir.mkdir()
+    extra_dir.mkdir()
+    write_source(
+        configured_dir,
+        '''
+"""Module docs."""
+
+
+def configured() -> str:
+    """Return configured."""
+    return "x"
+''',
+        "configured.py",
+    )
+    write_source(
+        extra_dir,
+        '''
+"""Module docs."""
+
+
+def extra() -> str:
+    """Return extra."""
+    return "x"
+''',
+        "extra.py",
+    )
+    config_path = tmp_path / "pyproject.toml"
+    config_path.write_text(
+        '''
+[tool.python-docstring-checker]
+include = ["configured"]
+''',
+        encoding="utf-8",
+    )
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = main(["--config", "pyproject.toml", "--include", "extra"])
+    output = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert "configured.py" in output
+    assert "extra.py" in output
+
+
+def test_cli_positional_paths_override_include(
+    tmp_path: Path, capsys, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    included_dir = tmp_path / "included"
+    explicit_dir = tmp_path / "explicit"
+    included_dir.mkdir()
+    explicit_dir.mkdir()
+    write_source(
+        included_dir,
+        '''
+"""Module docs."""
+
+
+def included() -> str:
+    """Return included."""
+    return "x"
+''',
+        "included.py",
+    )
+    write_source(
+        explicit_dir,
+        '''
+"""Module docs."""
+
+
+def explicit() -> None:
+    """Do explicit work."""
+    pass
+''',
+        "explicit.py",
+    )
+    config_path = tmp_path / "pyproject.toml"
+    config_path.write_text(
+        '''
+[tool.python-docstring-checker]
+include = ["included"]
+''',
+        encoding="utf-8",
+    )
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = main(["--config", "pyproject.toml", "explicit/explicit.py"])
+    output = capsys.readouterr().out
+
+    assert exit_code == 0
+    assert output.strip() == "Docstring check passed: no issues found."
+
+
+def test_cli_defaults_to_current_directory_without_paths_or_include(
+    tmp_path: Path, capsys, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    write_source(
+        tmp_path,
+        '''
+"""Module docs."""
+
+
+def root() -> str:
+    """Return root."""
+    return "x"
+''',
+        "root.py",
+    )
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = main(["--format", "compact"])
+    output = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert output.startswith("root.py:5: RET001 root:")
+
+
 def test_cli_reads_require_docstring_types_config(tmp_path: Path, capsys) -> None:
     source_path = write_source(
         tmp_path,
